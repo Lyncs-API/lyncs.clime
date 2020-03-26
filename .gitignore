@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+lyncs_clime/include
+lyncs_clime/lib
+lyncs_clime/bin
+
+*~
