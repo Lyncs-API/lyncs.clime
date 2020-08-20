@@ -9,7 +9,7 @@ set(EXTERNAL_INSTALL_LOCATION "${CMAKE_BINARY_DIR}" CACHE STRING "Path where to 
 FILE(GLOB_RECURSE PATCHES "${CMAKE_CURRENT_SOURCE_DIR}/patches/*.patch")
 ExternalProject_Add(c-lime
   GIT_REPOSITORY https://github.com/usqcd-software/c-lime
-  GIT_TAG master
+  GIT_TAG a4c6612
   PATCH_COMMAND git apply ${PATCHES}
   CONFIGURE_COMMAND /bin/sh -c "test -f Makefile || (./autogen.sh && ./configure CC=${CMAKE_C_COMPILER} --prefix=${EXTERNAL_INSTALL_LOCATION})"
   BUILD_COMMAND make -j && make -j install
