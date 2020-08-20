@@ -1,11 +1,11 @@
 # A Python interface to c-lime for Lyncs
 
-[![python](https://img.shields.io/pypi/pyversions/lyncs_clime.svg?logo=python)](https://pypi.org/project/lyncs_clime/)
-[![pypi](https://img.shields.io/pypi/v/lyncs_clime.svg?logo=python)](https://pypi.org/project/lyncs_clime/)
-[![license](https://img.shields.io/github/license/Lyncs-API/lyncs.clime?logo=github)](https://github.com/Lyncs-API/lyncs.clime/blob/master/LICENSE)
-[![build & test](https://img.shields.io/github/workflow/status/Lyncs-API/lyncs.clime/build%20&%20test?logo=github)](https://github.com/Lyncs-API/lyncs.clime/actions)
-[![codecov](https://img.shields.io/codecov/c/github/Lyncs-API/lyncs.clime?logo=codecov)](https://codecov.io/gh/Lyncs-API/lyncs.clime)
-[![black](https://img.shields.io/badge/code%20style-black-000000.svg?logo=codefactor)](https://github.com/ambv/black)
+[![python](https://img.shields.io/pypi/pyversions/lyncs_clime.svg?logo=python&logoColor=white)](https://pypi.org/project/lyncs_clime/)
+[![pypi](https://img.shields.io/pypi/v/lyncs_clime.svg?logo=python&logoColor=white)](https://pypi.org/project/lyncs_clime/)
+[![license](https://img.shields.io/github/license/Lyncs-API/lyncs.clime?logo=github&logoColor=white)](https://github.com/Lyncs-API/lyncs.clime/blob/master/LICENSE)
+[![build & test](https://img.shields.io/github/workflow/status/Lyncs-API/lyncs.clime/build%20&%20test?logo=github&logoColor=white)](https://github.com/Lyncs-API/lyncs.clime/actions)
+[![codecov](https://img.shields.io/codecov/c/github/Lyncs-API/lyncs.clime?logo=codecov&logoColor=white)](https://codecov.io/gh/Lyncs-API/lyncs.clime)
+[![black](https://img.shields.io/badge/code%20style-black-000000.svg?logo=codefactor&logoColor=white)](https://github.com/ambv/black)
 
 Lyncs.clime is a faithful Python interface to c-lime.
 [c-lime] is a C-API for creating, reading, writing, and manipulating LIME files
