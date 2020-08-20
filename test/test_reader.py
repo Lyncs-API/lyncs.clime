@@ -3,7 +3,7 @@ def test_reader():
     import os
 
     print(os.getcwd())
-    reader = Reader("tests/conf.1000")
+    reader = Reader("test/conf.unity")
 
     assert len(reader) == len(list(reader))
     assert "precision" in str(reader)
