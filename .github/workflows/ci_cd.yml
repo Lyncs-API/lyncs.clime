@@ -27,6 +27,13 @@ jobs:
         pip install setuptools wheel twine
         pip install lyncs_setuptools
         
+    - name: Run tests
+      run: |
+        pip install -e .[all]
+        pytest -v --cov-report=xml
+        export CODECOV_TOKEN="${{ secrets.CODECOV_TOKEN }}"
+        bash <(curl -s https://codecov.io/bash) -f ./coverage.xml -n lyncs_clime
+
     - name: Install and upload if not up to date
       env:
         TWINE_USERNAME: __token__
@@ -41,13 +48,6 @@ jobs:
             count=$((count+1))
           done
         )
-
-    - name: Run tests
-      run: |
-        pip install lyncs_clime[all]==$(lyncs_setuptools version)
-        pytest -v --cov=lyncs_clime --cov-report=xml
-        export CODECOV_TOKEN="${{ secrets.CODECOV_TOKEN }}"
-        bash <(curl -s https://codecov.io/bash) -f ./coverage.xml -n lyncs_clime
 
   clean-run:
     
@@ -72,4 +72,4 @@ jobs:
         
     - name: Test with pytest
       run: |
-        pytest -v
+        pytest -v --import-mode=importlib
