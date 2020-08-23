@@ -38,7 +38,7 @@ class Reader:
             ME_flag=lib.limeReaderMEFlag(self.reader),
         )
 
-        if record["nbytes"] < self.max_bytes:
+        if record["nbytes"] <= self.max_bytes:
             from array import array
 
             nbytes = record["nbytes"]
@@ -63,7 +63,7 @@ class Reader:
         self._reader = None
 
     def __enter__(self):
-        if not self._reader is None:
+        if self._reader is not None:
             self.close()
         self.open()
         return self
