@@ -30,10 +30,6 @@ jobs:
       run: |
         black --check .
 
-    - name: Pylint output
-      run: |
-        pylint lyncs_clime
-
     - name: Install from source
       run: |
         pip install -e .[all]
@@ -41,6 +37,10 @@ jobs:
     - name: Run tests
       run: |
         pytest -v
+
+    - name: Pylint output
+      run: |
+        pylint --fail-under 8 lyncs_clime
 
     - name: Upload if not up to date
       env:
