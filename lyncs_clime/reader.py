@@ -176,6 +176,6 @@ class Reader:
 
 
 def main():
-    "Correspondig executable to lime_contents"
+    "Corresponding executable to lime_contents"
     assert len(sys.argv) == 2, "Usage: %s <lime_file>" % sys.argv[0]
     return str(Reader(sys.argv[1]))
