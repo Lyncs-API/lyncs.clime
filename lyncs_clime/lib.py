@@ -1,3 +1,5 @@
+"Loads the c-lime library"
+
 __all__ = [
     "lib",
     "PATHS",
