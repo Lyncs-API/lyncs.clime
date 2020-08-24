@@ -144,7 +144,7 @@ class Reader:
         return self
 
     def __next__(self):
-        self.next()
+        return self.next()
 
     def __str__(self):
         rec = 0
