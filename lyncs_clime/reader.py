@@ -1,16 +1,53 @@
+"""
+Reader functions for lime files
+"""
+# pylint: disable=C0303
+
 __all__ = [
     "Reader",
 ]
 
+import sys
+import os
+from array import array
 from .lib import lib
 
 
 class Reader:
+    """
+    Reader class for lime files.
+
+    Example
+    -------
+    
+    >>> reader = Reader("conf.lime")
+    >>> records = list(reader)
+    >>> records[0]
+    {
+      'offset': 144, 
+      'nbytes': 258, 
+      'lime_type': 'xlf-info', 
+      'bytes_pad': 6, 
+      'MB_flag': 1, 
+      'ME_flag': 1, 
+      'data': '...'
+    }
+    """
+
     __slots__ = ["filename", "_fp", "_reader", "max_bytes"]
 
     def __init__(self, filename, max_bytes=64000):
-        import os
-
+        """
+        Reads the content of a lime file
+        
+        Parameters
+        ----------
+        filename: str
+           Name of the file
+        max_bytes: int
+           Max length of records to be read in directly.
+           If larger, the data inside the record is not read.
+        """
         assert os.path.isfile(filename)
         self.filename = os.path.abspath(filename)
         self.max_bytes = max_bytes
@@ -18,17 +55,19 @@ class Reader:
         self._reader = None
 
     def __del__(self):
-        if self._reader is not None:
+        if self.isopen:
             self.close()
 
     @property
     def reader(self):
-        if self._reader is None:
+        "The c-lime reader"
+        if not self.isopen:
             self.open()
         return self._reader
 
     @property
     def record(self):
+        "Content of the current record"
         record = dict(
             offset=self.reader.rec_start,
             nbytes=lib.limeReaderBytes(self.reader),
@@ -39,8 +78,6 @@ class Reader:
         )
 
         if record["nbytes"] <= self.max_bytes:
-            from array import array
-
             nbytes = record["nbytes"]
             arr = array("u", ["\0"] * nbytes)
             read_bytes = array("L", [nbytes])
@@ -52,11 +89,31 @@ class Reader:
 
         return record
 
+    @property
+    def isopen(self):
+        "Returns if the file is open"
+        return self._reader is not None
+
     def open(self):
+        "Opens the file reader"
         self._fp = lib.fopen(self.filename, "r")
         self._reader = lib.limeCreateReader(self._fp)
 
+    def next(self):
+        "Moves to the next record"
+        if not self.isopen:
+            raise RuntimeError("File needs to be open first")
+
+        status = lib.limeReaderNextRecord(self.reader)
+        if status != lib.LIME_EOF:
+            return self.record
+        raise StopIteration
+
     def close(self):
+        "Closes the file reader"
+        if not self.isopen:
+            raise RuntimeError("File needs to be open first")
+
         lib.limeDestroyReader(self._reader)
         lib.fclose(self._fp)
         self._fp = None
@@ -68,7 +125,7 @@ class Reader:
         self.open()
         return self
 
-    def __exit__(self, typ, value, tb):
+    def __exit__(self, typ, value, trb):
         self.close()
 
     def __len__(self):
@@ -87,11 +144,7 @@ class Reader:
         return self
 
     def __next__(self):
-        status = lib.limeReaderNextRecord(self.reader)
-        if status != lib.LIME_EOF:
-            return self.record
-        else:
-            raise StopIteration
+        self.next()
 
     def __str__(self):
         rec = 0
@@ -115,7 +168,7 @@ class Reader:
             res += "ME flag:        %s\n" % record["ME_flag"]
             if "data" not in record:
                 res += "Data:           [Long record skipped]\n"
-            elif type(record["data"]) is str:
+            elif isinstance(record["data"], str):
                 res += 'Data:           "%s"\n' % record["data"]
             else:
                 res += "Data:           [Binary data]\n"
@@ -123,7 +176,6 @@ class Reader:
 
 
 def main():
-    import sys
-
+    "Correspondig executable to lime_contents"
     assert len(sys.argv) == 2, "Usage: %s <lime_file>" % sys.argv[0]
     return str(Reader(sys.argv[1]))
