@@ -1,4 +1,5 @@
 import sys
+import pytest
 from lyncs_clime import Reader
 from lyncs_clime.reader import main
 
@@ -19,6 +20,11 @@ def test_reader():
 
     with reader as fp:
         assert list(fp) == list(reader)
+
+    with pytest.raises(RuntimeError):
+        reader.close()
+    with pytest.raises(RuntimeError):
+        reader.next()
 
 
 def test_with():

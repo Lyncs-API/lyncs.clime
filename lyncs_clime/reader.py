@@ -11,6 +11,7 @@ import sys
 import os
 from array import array
 from .lib import lib
+from .status import check_status
 
 
 class Reader:
@@ -81,10 +82,10 @@ class Reader:
             nbytes = record["nbytes"]
             arr = array("u", ["\0"] * nbytes)
             read_bytes = array("L", [nbytes])
-            status = lib.limeReaderReadData(arr, read_bytes, self.reader)
+            check_status(lib.limeReaderReadData(arr, read_bytes, self.reader))
             try:
                 record["data"] = bytes(arr).decode().strip("\0")
-            except:
+            except UnicodeDecodeError:
                 record["data"] = bytes(arr)
 
         return record
@@ -106,6 +107,7 @@ class Reader:
 
         status = lib.limeReaderNextRecord(self.reader)
         if status != lib.LIME_EOF:
+            check_status(status)
             return self.record
         raise StopIteration
 
@@ -130,17 +132,18 @@ class Reader:
 
     def __len__(self):
         offset = lib.limeGetReaderPointer(self.reader)
-        lib.limeSetReaderPointer(self.reader, 0)
+        check_status(lib.limeSetReaderPointer(self.reader, 0))
         count = 0
         status = lib.limeReaderNextRecord(self.reader)
         while status != lib.LIME_EOF:
+            check_status(status)
             status = lib.limeReaderNextRecord(self.reader)
             count += 1
-        status = lib.limeSetReaderPointer(self.reader, offset)
+        check_status(lib.limeSetReaderPointer(self.reader, offset))
         return count
 
     def __iter__(self):
-        lib.limeSetReaderPointer(self.reader, 0)
+        check_status(lib.limeSetReaderPointer(self.reader, 0))
         return self
 
     def __next__(self):
