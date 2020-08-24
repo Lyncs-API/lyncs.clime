@@ -1,14 +1,14 @@
+"Loads the c-lime library"
+
 __all__ = [
     "lib",
     "PATHS",
 ]
 
-import os
+from lyncs_cppyy import Lib
 from . import __path__
 
 PATHS = list(__path__)
-
-from lyncs_cppyy import Lib
 
 lib = Lib(
     path=PATHS,

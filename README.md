@@ -34,3 +34,62 @@ pip install [--user] lyncs_clime
 ## Documentation
 
 The following classes are available in lyncs_clime: Reader, ...
+
+
+## Contributing
+
+When contributing to the package, clone the source from [github](https://github.com/Lyncs-API/lyncs.clime):
+
+```
+git clone https://github.com/Lyncs-API/lyncs.clime
+cd lyncs.clime
+```
+
+install the package in development mode:
+
+```
+pip install -e .[all]
+```
+
+and run the test-suite for checking the correctness of the installation:
+
+```
+pytest -v
+```
+
+If everything goes well, you should see all the tests passed and obtain a coverage report.
+
+A main implementation requirement is an **high code-coverage**.
+If you are going to implement something new, please, also add the respective
+test files or functions in the `test/` directory.
+
+Another implementation requirement is to **format the code** via [black](https://github.com/ambv/black)
+and to use [pylint](https://github.com/PyCQA/pylint) for improving the code standard.
+
+These packages can be installed via pip:
+
+```
+pip install black pylint
+```
+
+Before any commit, run black from the source directory:
+
+```
+black .
+```
+
+When you are done with the implementation, try to resolve as many comments/warnings/errors
+as possible brought up by `pylint`:
+
+```
+pylint lyncs_clime
+```
+
+**NOTE:** pylint and black are incompatible in few formatting assumptions. Please, ignore
+the comments C0303 and C0330 of pylint. If they show up in the files you have edited/added,
+please, add the following line after the documentation string at the beginning of the respective files:
+
+```
+# pylint: disable=C0303,C0330
+```
+
