@@ -38,7 +38,7 @@ jobs:
         TWINE_USERNAME: __token__
         TWINE_PASSWORD: ${{ secrets.test_pypi_password }}
       run: |
-        pip uninstall lyncs_clime
+        pip uninstall -y lyncs_clime
         pip install --extra-index-url https://test.pypi.org/simple/ lyncs_clime==$(lyncs_setuptools version) || (
           pip install twine
           python setup.py sdist
