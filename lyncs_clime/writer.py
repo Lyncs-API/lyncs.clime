@@ -34,7 +34,7 @@ class Writer:
         self.filename = os.path.abspath(filename)
         self._fp = None
         self._writer = None
-        self._bstart = 0
+        self._buffstart = 0
 
     def __del__(self):
         if self.isopen:
