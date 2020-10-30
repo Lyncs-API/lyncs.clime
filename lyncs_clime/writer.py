@@ -69,7 +69,7 @@ class Writer:
         self._buffstart = 0
         
     def _write(self, record, rtype):
-        "Writes a single record to the file
+        "Writes a single record to the file"
         MB_flag = 1; ME_flag = 1; bytes = sys.getsizeof(record)
         h = lib.limeCreateHeader( MB_flag, ME_flag, rtype, bytes  )
         status = lib.limeWriteRecordHeader( h, self.writer )
