@@ -59,7 +59,7 @@ class Writer:
 
     def close(self):
         "Closes the file writer"
-        if not self.isopen:
+        if not self.isopen():
             raise RuntimeError("File needs to be open first")
 
         lib.limeDestroyWriter(self.writer)
@@ -96,8 +96,8 @@ class Writer:
             Types of each record        
         """
         if len(records) != len(record_types):
-            raise ValueError("Length mismatch record list of length {} but types of length {}".format(len(records),len(record_types))
-        if not self.isopen:
+            raise ValueError("Length mismatch record list of length {} but types of length {}".format(len(records),len(record_types)))
+        if not self.isopen():
             self.open()
         for record, rtype in enumerate( zip(records,record_types) ):
             self._write(record, rtype)
